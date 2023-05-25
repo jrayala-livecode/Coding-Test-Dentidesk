@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Income;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class IncomeCategory extends Model
 {
@@ -13,4 +14,8 @@ class IncomeCategory extends Model
         'name',
         'description',
     ];
+
+    public function incomes() {
+        return $this->hasMany(Income::class,'category_id', 'id');
+    }
 }

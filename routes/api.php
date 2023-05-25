@@ -7,6 +7,7 @@ use App\Http\Controllers\API\IncomeController;
 use App\Http\Controllers\API\ExpenseController;
 use App\Http\Controllers\API\IncomeCategoryController;
 use App\Http\Controllers\API\ExpenseCategoryController;
+use App\Http\Controllers\API\TotalsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,18 +26,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('incomes', IncomeController::class);
+    Route::apiResource('expenses', ExpenseController::class);
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/monthly-total', [TotalsController::class, 'monthlyTotal']);
+    Route::get('/get-income-expenses-category', [TotalsController::class, 'getIncomeAndExpensesByCategory']);
 });
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::apiResource('expenses', ExpenseController::class);
-});
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register'])->name('api.register');
-
-Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout']);
-});
 
 Route::middleware('auth:sanctum')->get('/check-auth', function (Request $request) {
     return response()->json(['message' => 'Authenticated']);

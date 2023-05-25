@@ -9,3 +9,15 @@ function formToJSON(form) {
 
     return JSON.stringify(formData);
 }
+
+function padTo2Digits(num) {
+    return num.toString().padStart(2, '0');
+}
+
+function today(){
+    var d = new Date();
+    return [
+        d.getFullYear(),
+        padTo2Digits(d.getMonth() + 1),
+    ].join('-');
+}

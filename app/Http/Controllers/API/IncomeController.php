@@ -12,14 +12,22 @@ class IncomeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
-        $incomes = $user->incomes()->with('category')->get();
+        $incomes = $user->incomes()->with('category')
+        ->when($request->has('year'), function ($query) use ($request) {
+            return $query->whereYear('created_at', $request->year);
+        })
+        ->when($request->has('month'), function ($query) use ($request) {
+            return $query->whereMonth('created_at', $request->month);
+        })
+        ->get();
+
 
         return response()->json($incomes);
     }
-
+    
     /**
      * Store a newly created resource in storage.
      */

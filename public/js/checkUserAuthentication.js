@@ -18,17 +18,25 @@ document.addEventListener('DOMContentLoaded', function () {
                 'Authorization': 'Bearer ' + token
             },
             success: function (response) {
-                // User is authenticated    
+                $('#login-button').hide();
+                $('#register-button').hide();
+                console.log(response);
             },
             error: function (xhr) {
-                window.location.href = '/login';
+                console.log(xhr);
+                $('#login-button').show();
+                $('#register-button').show();
+                $('#logout-button').hide();
+                $('#transaction-button').hide();
+                if(window.location.pathname !== '/login' && window.location.pathname !== '/register') {
+                    window.location.href = '/login';
+                }
             }
         });
+        
+
     }
 
-    // Check authentication status on page load
-    if(window.location.pathname !== '/login' && window.location.pathname !== '/register') {
-        checkAuthentication();
-    }
+    checkAuthentication();
 });
 

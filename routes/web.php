@@ -19,6 +19,8 @@ Route::get('/register', [ViewController::class, 'showRegistrationForm'])->name('
 
 Route::get('/login', [ViewController::class, 'showLoginForm'])->name('login');
 
+Route::get('/', [ViewController::class, 'showTransactions'])->name('transactions');
+
 // Dashboard and transactions routes (require authentication)
 
 Route::get('/transactions', [ViewController::class, 'showTransactions'])->name('transactions');

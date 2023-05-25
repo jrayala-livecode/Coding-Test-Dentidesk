@@ -12,12 +12,21 @@ class ExpenseController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
-        $expenses = $user->expenses()->with('category')->get();
+        $expenses = $user->expenses()
+            ->with('category')
+            ->when($request->has('year'), function ($query) use ($request) {
+                return $query->whereYear('created_at', $request->year);
+            })
+            ->when($request->has('month'), function ($query) use ($request) {
+                return $query->whereMonth('created_at', $request->month);
+            })
+            ->get();
 
-        return response()->json($expenses);
+
+        return response()->json($expenses   );
     }
 
     /**
